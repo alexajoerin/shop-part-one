@@ -8,6 +8,7 @@ import cors from "cors";
 const app = express();
 import productRouter from "./routes/productsRouter";
 import usersRouter from "./routes/usersRouter";
+import cartItemsRouter from "./routes/cartItemsRouter";
 
 // enable Cross Origin Resource Sharing so this API can be used from web-apps on other domains
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/", productRouter);
 app.use("/", usersRouter);
+app.use("/", cartItemsRouter);
 
 // define the port
 const port = 3000;

@@ -20,7 +20,7 @@ productsRouter.get("/products", async (req, res) => {
       ...(maxPrice ? { price: { $lte: maxPrice } } : {}),
       ...(includes ? { name: new RegExp(`${includes}`, "i") } : {}),
     };
-    let limit: number | null = parseInt(req.query.limit as string);
+    let limit: number | null = Number(req.query.limit);
     if (isNaN(limit)) limit = null;
     const client = await getClient();
     const cursor = client.db().collection<Product>("products").find(query);
@@ -70,7 +70,7 @@ productsRouter.put("/products/:id", async (req, res) => {
       .db()
       .collection<Product>("products")
       .replaceOne({ _id }, updatedProduct);
-    if (result.matchedCount) {
+    if (result.modifiedCount) {
       res.status(200).json(updatedProduct);
     } else {
       res.status(404).json({ message: `Product not found` });
